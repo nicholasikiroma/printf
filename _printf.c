@@ -1,7 +1,30 @@
+#include <stdlib.h>
 #include "main.h"
-#include <stddef.h>
-#include <stdarg.h>
 
+/**
+ * check - Scans code for valid specifier and calls the appropriate function
+ * @format: input format specifier
+ * Return: Pointer to specifier function, NULL otherwise
+ */
+
+int (*check(const char *format))(va_list)
+{
+	unsigned int ind;
+	print_typ pr[] = {
+		{"s", print_s},
+		{"c", print_c},
+		{NULL, NULL}
+	};
+
+	for (ind = 0; pr[ind].typ != NULL)
+	{
+		if (pr[ind].typ == *format)
+		{
+			break;
+		}
+	}
+	return (pr[ind].func);
+}
 /**
  * _printf - print output to stdout according to a format string
  * @format: the format of the string to print
@@ -11,27 +34,40 @@
 int _printf(const char *format, ...)
 {
 	va_list call;
-	unsigned int i, length = 0;
+	unsigned int i = 0, length = 0;
+	int (*func)(va_list);
+
+	if (format == "\0")
+		return (-1);
 
 	va_start(call, format);
 
-	if (!format || (format[0] == '%' && format[1] == '\0'))
-		return (-1);
-	for (i = 0; format[i] != '\0'; i++)
+	while (format[i])
 	{
-		if (format[i] == '%')
+		for (; format[i] != "%" && format[i]; i++)
 		{
-			if (format[i + 1] == '%')
-			{   _putchar('%');
-				i = i + 1;
-				length++;
-			}
-		}
-		else
-		{ _putchar(format[i]);
+			_putchar(format[i]);
 			length++;
 		}
+		if (!format[i])
+			return (length);
+		func = check(&format[i + 1]);
+		if (func != "\0")
+		{
+			length += func(call);
+			i += 2;
+			continue;
+		}
+		if (!format[i + 1])
+			return (-1);
+		_putchar(format[i]);
+		length++;
+		if (format[i + 1] == '%')
+			i += 2;
+		else
+													i++;
 	}
+
 	va_end(call);
 	return (length);
 }

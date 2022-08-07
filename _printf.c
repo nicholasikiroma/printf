@@ -1,6 +1,8 @@
 #include "main.h"
 #include <stddef.h>
 #include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 /**
  * _printf - print output to stdout according to a format string
@@ -10,28 +12,45 @@
  */
 int _printf(const char *format, ...)
 {
-	va_list call;
-	unsigned int i, length = 0;
+	int written = 0,
+	(*structype)(char *, va_list);
+	char q[3];
+	va_list pa;
 
-	va_start(call, format);
-
-	if (!format || (format[0] == '%' && format[1] == '\0'))
+	if (format == NULL)
 		return (-1);
-	for (i = 0; format[i] != '\0'; i++)
+	q[2] = '\0';
+	va_start(pa, format);
+	_putchar(-1);
+	while (format[0])
 	{
-		if (format[i] == '%')
+		if (format[0] == '%')
 		{
-			if (format[i + 1] == '%')
-			{   _putchar('%');
-				i = i + 1;
-				length++;
+			structype = (format);
+			if (structype)
+			{
+				q[0] = '%';
+				q[1] = format[1];
+				written += structype(q, pa);
 			}
+			else if (format[1] != '\0')
+			{
+				written += _putchar('%');
+				written += _putchar(format[1]);
+			}
+			else
+			{
+				written += _putchar('%');
+				break;
+			}
+			format += 2;
 		}
 		else
-		{ _putchar(format[i]);
-			length++;
+		{
+			written += _putchar(format[0]);
+			format++;
 		}
 	}
-	va_end(call);
-	return (length);
+	_putchar(-2);
+	return (written);
 }

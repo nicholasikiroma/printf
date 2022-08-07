@@ -16,9 +16,9 @@ int (*check(const char *format))(va_list)
 		{NULL, NULL}
 	};
 
-	for (ind = 0; pr[ind].typ != NULL)
+	for (ind = 0; pr[ind].typ != NULL; ind++)
 	{
-		if (pr[ind].typ == *format)
+		if (*pr[ind].typ == *format)
 		{
 			break;
 		}
@@ -37,14 +37,14 @@ int _printf(const char *format, ...)
 	unsigned int i = 0, length = 0;
 	int (*func)(va_list);
 
-	if (format == "\0")
+	if (format == NULL)
 		return (-1);
 
 	va_start(call, format);
 
 	while (format[i])
 	{
-		for (; format[i] != "%" && format[i]; i++)
+		for (; format[i] != '%' && format[i]; i++)
 		{
 			_putchar(format[i]);
 			length++;
@@ -52,7 +52,7 @@ int _printf(const char *format, ...)
 		if (!format[i])
 			return (length);
 		func = check(&format[i + 1]);
-		if (func != "\0")
+		if (func != NULL)
 		{
 			length += func(call);
 			i += 2;

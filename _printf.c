@@ -13,6 +13,8 @@ int (*check(const char *format))(va_list)
 	print_typ pr[] = {
 		{"s", print_s},
 		{"c", print_c},
+		{"i", print_i},
+		{"d", print_d},
 		{NULL, NULL}
 	};
 

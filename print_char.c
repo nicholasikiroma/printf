@@ -33,3 +33,62 @@ int print_s(va_list s)
 	}
 	return (indx);
 }
+/**
+ * hex_char - Prints a character's ASCII number in uppercase
+ * @h: charactee to print
+ * Return: number of characters printed
+ */
+static int hex_char(char h)
+{
+	char d[2];
+	int num;
+	char diff = 'A' - ':';
+
+	d[0] = h / 16;
+	d[1] = h % 16;
+	for (num = 0; num < 2; num++)
+	{
+		if (d[num] >= 10)
+		{
+			_putchar('0' + diff + d[num]);
+		}
+		else
+		{
+			_putchar('0' + d[num]);
+		}
+	}
+	return (num);
+}
+
+/**
+ * print_S - prints a string(including non-printable characters)
+ * followed by thw ASCII values
+ * @S: string to print
+ *
+ * Return: number of characters printed
+ */
+int print_S(va_list S)
+{
+	unsigned int indx;
+	int num = 0;
+	char *string = va_arg(S, char *);
+
+	if (string == NULL)
+		string = "(null)";
+	for (indx = 0; string[indx]; indx++)
+	{
+		if (string[indx] < 32 || string[indx] >= 127)
+		{
+			_putchar('\\');
+			_putchar('x');
+			num += 2;
+			num += hex_char(string[indx]);
+		}
+		else
+		{
+			_putchar(string[indx]);
+			num++;
+		}
+	}
+	return (num);
+}

@@ -22,7 +22,7 @@ int (*check(const char *format))(va_list)
 		{"X", print_X},
 		{"S", print_S},
 		{"p", print_p},
-		{"r", print_r},
+		{"r", print_rev},
 		{"R", print_R},
 		{NULL, NULL}
 	};

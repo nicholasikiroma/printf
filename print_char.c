@@ -92,26 +92,3 @@ int print_S(va_list S)
 	}
 	return (num);
 }
-
-/**
- * print_r - prints astring in reverse
- * @r: string to print
- *
- * Return: number of chars printed
- */
-int print_r(va_list r)
-{
-	char *str;
-	int i, total = 0;
-
-	str = va_arg(r, char *);
-	if (str == NULL)
-		str = ")llun(";
-	for (i = 0; str[i]; i++)
-		;
-	{
-		_putchar(str[i]);
-		total++;
-	}
-	return (total);
-}

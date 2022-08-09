@@ -4,7 +4,7 @@
  * cal_expo - Calculates exponent
  * @base: base of exponent
  * @exponent: exponent of number
- * 
+ *
  * Return: Exponet of a number
  */
 static unsigned long cal_expo(unsigned int base, unsigned int exponent)

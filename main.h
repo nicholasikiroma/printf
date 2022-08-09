@@ -27,5 +27,6 @@ int print_o(va_list o);
 int print_x(va_list x);
 int print_X(va_list X);
 int print_S(va_list S);
+int print_p(va_list p);
 
 #endif
